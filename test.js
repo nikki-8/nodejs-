@@ -1,14 +1,21 @@
-function factorial(n){
-  let answer = 1;
-  if (n == 0 || n == 1){
-    return answer;
-  }else{
-    for(var i = n; i >= 1; i--){
-      answer = answer * i;
-    }
-    return answer;
-  }  
-}
-let n = 4;
-answer = factorial(n)
-console.log("The factorial of " + n + " is " + answer);
+const express = require('express')
+const mongoose = require('mongoose')
+const url = 'mongodb://localhost/AlienDBex'
+
+const app =express()
+
+mongoose.connect(url,{useNewUrlParser:true})
+const con = mongoose.connection
+
+con.on('open',() =>{
+    console.log('connected....')
+})
+app.use(express.json())
+const alienRouter =require('./routes/aliens')
+app.use('/aliens',alienRouter)
+app.listen(9000,() =>{
+    console.log('Server started')
+})
+
+
+
